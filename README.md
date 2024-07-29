@@ -1,1 +1,1 @@
-# Collaborate-Networking-MERN-Application
+# CollabConnect
