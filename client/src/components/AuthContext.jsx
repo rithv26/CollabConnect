@@ -5,10 +5,10 @@ const AuthContext = createContext();
 const AuthUpdateContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { isAuthenticated, user, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, isLoading, user, loginWithRedirect, logout } = useAuth0();
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user }}>
+    <AuthContext.Provider value={{ isLoading, isAuthenticated, user }}>
       <AuthUpdateContext.Provider value={{ loginWithRedirect, logout }}>
         {children}
       </AuthUpdateContext.Provider>

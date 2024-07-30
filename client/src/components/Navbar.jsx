@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth, useAuthUpdate } from "./AuthContext";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const { isAuthenticated, user } = useAuth();
@@ -11,6 +12,7 @@ function Navbar() {
         <>
           Welcome, {user.name}
           <button onClick={() => logout({ returnTo: window.location.origin })}>Logout</button>
+          <Link to="/profile">Profile link</Link>
         </>
       ) : (
         <>
