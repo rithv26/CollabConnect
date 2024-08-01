@@ -10,8 +10,8 @@ function Home() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <ColorRing colors={['#000000', '#000000', '#000000', '#000000', '#000000']} width="60" height="60" color="#000000" />
+      <div className="flex items-center justify-center h-screen bg-base-100">
+        <ColorRing colors={['#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF']} width="60" height="60" color="#000000" />
       </div>
     );
   }

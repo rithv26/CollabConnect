@@ -4,6 +4,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 const AuthContext = createContext();
 const AuthUpdateContext = createContext();
 
+// This context is tbf not needed since
+// we can just use useAuth0() directly in any component
+// However, this will make code more readable/intuitive
 export const AuthProvider = ({ children }) => {
   const { isAuthenticated, isLoading, user, loginWithRedirect, logout } = useAuth0();
 

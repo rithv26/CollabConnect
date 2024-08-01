@@ -7,12 +7,12 @@ function Navbar() {
   const { loginWithRedirect, logout } = useAuthUpdate();
 
   return (
-    <div className="h-10 w-full bg-blue-300 p-2">
+    <div className="h-10 w-full bg-primary text-primary-content p-2">
       {isAuthenticated ? (
         <>
-          Welcome, {user.name}
+          Welcome, {user.sub}    
           <button onClick={() => logout({ returnTo: window.location.origin })}>Logout</button>
-          <Link to="/profile">Profile link</Link>
+          <Link to="/profile" className="text-primary-content">Profile link</Link>
         </>
       ) : (
         <>
