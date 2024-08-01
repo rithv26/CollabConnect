@@ -23,8 +23,6 @@ const addUser = async (req, res) => {
 // Get user by Auth0 ID
 const getUserByAuth0Id = async (req, res) => {
   try {
-    console.log("Got it 2");
-
     const user = await User.findOne({ auth0Id: req.params.auth0Id });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -38,7 +36,6 @@ const getUserByAuth0Id = async (req, res) => {
 // Update user by Auth0 ID
 const updateUserByAuth0Id = async (req, res) => {
   try {
-    console.log("Got it 1");
     const { auth0Id } = req.params;
     const updateData = req.body;
 
