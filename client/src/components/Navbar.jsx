@@ -11,7 +11,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 
-function Navbar({ search = false, updateMarkers }) {
+function Navbar({ updateMarkers }) {
   const { user } = useAuth();
   const { logout } = useAuthUpdate();
 
@@ -34,9 +34,7 @@ function Navbar({ search = false, updateMarkers }) {
 
   const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
 
-
   const {
-    ready,
     value,
     suggestions: { status, data },
     setValue,
@@ -76,7 +74,14 @@ function Navbar({ search = false, updateMarkers }) {
           map.flyTo({ center: [lng, lat], zoom: 12.8 }); // Fly to the selected location
         }
         setCoordinates({ lat, lng });
-        updateMarkers(lat, lng, selectedFilters.includes("Hackers"), selectedFilters.includes("Developers"), selectedFilters.includes("Researchers"), remote);
+        updateMarkers(
+          lat,
+          lng,
+          selectedFilters.includes("Hackers"),
+          selectedFilters.includes("Developers"),
+          selectedFilters.includes("Researchers"),
+          remote,
+        );
       })
       .catch((error) => {
         console.error("Error getting geocode:", error);
@@ -114,9 +119,16 @@ function Navbar({ search = false, updateMarkers }) {
       );
     });
 
-    useEffect(() => {
-      updateMarkers(coordinates.lat, coordinates.lng, selectedFilters.includes("Hackers"), selectedFilters.includes("Developers"), selectedFilters.includes("Researchers"), remote);
-    }, [selectedFilters, remote]);
+  useEffect(() => {
+    updateMarkers(
+      coordinates.lat,
+      coordinates.lng,
+      selectedFilters.includes("Hackers"),
+      selectedFilters.includes("Developers"),
+      selectedFilters.includes("Researchers"),
+      remote,
+    );
+  }, [selectedFilters, remote]);
 
   return (
     <div
@@ -129,109 +141,106 @@ function Navbar({ search = false, updateMarkers }) {
         </Link>
       </div>
 
-      {search && (
-        <div className="ml-6 mr-6 flex flex-grow items-center justify-between">
-          {/* Search Bar */}
-          <div className="relative w-4/6">
-            <input
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              ref={searchInputRef}
-              type="text"
-              placeholder="Please Enter the location..."
-              className={`focus:border-3 input w-full bg-white text-black focus:border-blue-300 focus:outline-none ${
-                status === "OK"
-                  ? "rounded-tl-3xl rounded-tr-3xl"
-                  : "rounded-3xl"
-              }`}
-              onKeyDown={handleEnterPress}
+      <div className="ml-6 mr-6 flex flex-grow items-center justify-between">
+        {/* Search Bar */}
+        <div className="relative w-4/6">
+          <input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            ref={searchInputRef}
+            type="text"
+            placeholder="Please Enter the location..."
+            className={`focus:border-3 input w-full bg-white text-black focus:border-blue-300 focus:outline-none ${
+              status === "OK" ? "rounded-tl-3xl rounded-tr-3xl" : "rounded-3xl"
+            }`}
+            onKeyDown={handleEnterPress}
+          />
+          <div ref={searchButtonRef}>
+            <IoIosSearch
+              onClick={() => {
+                if (data.length > 0) {
+                  handleSuggestionClick(data[0]);
+                }
+              }}
+              className="absolute right-3 top-1/2 -translate-y-1/2 transform text-2xl text-gray-500"
             />
-            <div ref={searchButtonRef}>
-              <IoIosSearch
-                onClick={() => {
-                  if (data.length > 0) {
-                    handleSuggestionClick(data[0]);
-                  }
-                }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 transform text-2xl text-gray-500"
-              />
-            </div>
-            {status === "OK" && (
-              <ul
-                ref={suggestionsRef}
-                className="absolute z-20 w-full rounded-bl-3xl rounded-br-3xl bg-white"
-              >
-                {renderSuggestions()}
-              </ul>
-            )}
           </div>
-
-          {/* Custom Filter Button */}
-          <div ref={filterRef} className="relative ml-3 mr-2">
-            <button
-              onClick={() => setIsFilterOpen(!isFilterOpen)}
-              className="rounded-xl px-4 py-2 hover:border-[0.2px] hover:border-solid hover:border-white"
-              style={isFilterOpen ? { border: "solid white 0.2px" } : {}}
+          {status === "OK" && (
+            <ul
+              ref={suggestionsRef}
+              className="absolute z-20 w-full rounded-bl-3xl rounded-br-3xl bg-white"
             >
-              Filters
-            </button>
-
-            {/* Filter Options */}
-            {isFilterOpen && (
-              <div className="w-30 absolute left-0 mt-1 rounded-xl bg-black bg-opacity-90 p-2 shadow-lg">
-                {["Hackers", "Developers", "Researchers"].map((option) => (
-                  <label
-                    key={option}
-                    className="m-1 flex cursor-pointer items-center space-x-2"
-                  >
-                    <input
-                      checked={selectedFilters.includes(option)}
-                      type="checkbox"
-                      onChange={() => {
-                        setSelectedFilters(
-                          (prevFilters) =>
-                            prevFilters.includes(option)
-                              ? prevFilters.filter(
-                                  (filter) => filter !== option,
-                                ) // Remove option if it's already selected
-                              : [...prevFilters, option], // Add option if it's not already selected
-                        );
-                      }}
-                    />
-                    <span className="text-white">{option}</span>
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Remote/In-Person Toggle */}
-          <div className="form-control flex justify-between">
-            <label className="label cursor-pointer">
-              <div className="label-text w-20 mr-3 text-center">Collaborate Remotely</div>
-              <input
-                type="checkbox"
-                className="toggle rounded-full"
-                onChange={() => {
-                  setRemote(!remote)
-                }}
-              />
-            </label>
-          </div>
-
-          {/* Map/List Toggle */}
-          <div className="form-control">
-            <label className="label cursor-pointer">
-              <div className="label-text mr-3 text-center w-10">List View</div>
-              <input
-                type="checkbox"
-                className="toggle rounded-full"
-                onChange={() => setViewType(!viewType)}
-              />
-            </label>
-          </div>
+              {renderSuggestions()}
+            </ul>
+          )}
         </div>
-      )}
+
+        {/* Custom Filter Button */}
+        <div ref={filterRef} className="relative ml-3 mr-2">
+          <button
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            className="rounded-xl px-4 py-2 hover:border-[0.2px] hover:border-solid hover:border-white"
+            style={isFilterOpen ? { border: "solid white 0.2px" } : {}}
+          >
+            Filters
+          </button>
+
+          {/* Filter Options */}
+          {isFilterOpen && (
+            <div className="w-30 absolute left-0 mt-1 rounded-xl bg-black bg-opacity-90 p-2 shadow-lg">
+              {["Hackers", "Developers", "Researchers"].map((option) => (
+                <label
+                  key={option}
+                  className="m-1 flex cursor-pointer items-center space-x-2"
+                >
+                  <input
+                    checked={selectedFilters.includes(option)}
+                    type="checkbox"
+                    onChange={() => {
+                      setSelectedFilters(
+                        (prevFilters) =>
+                          prevFilters.includes(option)
+                            ? prevFilters.filter((filter) => filter !== option) // Remove option if it's already selected
+                            : [...prevFilters, option], // Add option if it's not already selected
+                      );
+                    }}
+                  />
+                  <span className="text-white">{option}</span>
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Remote/In-Person Toggle */}
+        <div className="form-control flex justify-between">
+          <label className="label cursor-pointer">
+            <div className="label-text mr-3 w-20 text-center">
+              Collaborate Remotely
+            </div>
+            <input
+              type="checkbox"
+              className="toggle rounded-full"
+              onChange={() => {
+                setRemote(!remote);
+              }}
+            />
+          </label>
+        </div>
+
+        {/* Map/List Toggle */}
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <div className="label-text mr-3 w-10 text-center">List View</div>
+            <input
+              type="checkbox"
+              className="toggle rounded-full"
+              onChange={() => setViewType(!viewType)}
+            />
+          </label>
+        </div>
+      </div>
+
       <div className="flex-none">
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button">

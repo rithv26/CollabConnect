@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       redirectUri={window.location.origin}
       cacheLocation="localstorage"
     >
-      <Profilepage />
+      <App />
     </Auth0Provider>
   </React.StrictMode>
 );

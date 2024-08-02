@@ -1,7 +1,15 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import logo from "../assets/logo.png"
+import Avatar from "../components/Avatar";
+import { useAuth, useAuthUpdate } from "../components/AuthContext";
+import { useUser } from "../components/UserContext";
 
 export const Profilepage = () => {
+  const { user } = useAuth();
+  const { logout } = useAuthUpdate();
   const [selectedRole, setSelectedRole] = useState("");
+  const {userData, setUserData, handleLoginSuccess} = useUser();
 
   const handleRoleChange = (event) => {
     setSelectedRole(event.target.value);
@@ -9,8 +17,37 @@ export const Profilepage = () => {
 
   return (
     <>
-      <form className="w-2/3 bg-gray-500 p-4 rounded-3xl">
-        <label className="input input-bordered flex items-center gap-4 mb-4 rounded-3xl">
+      <nav
+        className="absolute left-5 right-5 top-0 z-10 mt-7 flex items-center justify-between rounded-3xl bg-white bg-opacity-30 p-2"
+        style={{ width: "97%" }}
+      >
+        <div className="flex-none px-2">
+          <Link to={"/"} className="flex items-center text-lg font-bold">
+            <img src={logo} alt="CollabConnect Logo" className="h-12 w-auto" />
+          </Link>
+        </div>
+
+        <div className="flex-none">
+          <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button">
+              <Avatar image={user.picture} />
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu dropdown-content z-[1] mt-4 w-52 rounded-2xl bg-white bg-opacity-30 p-2 shadow"
+            >
+              <li>
+                <a onClick={() => logout({ returnTo: window.location.origin })}>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <form style={{ width: "97%" }} className="absolute left-5 top-36 rounded-3xl bg-white bg-opacity-30 p-4">
+        <label className="input input-bordered mb-4 flex items-center gap-4 rounded-3xl">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -21,7 +58,7 @@ export const Profilepage = () => {
           </svg>
           <input type="text" className="grow" placeholder="Name" />
         </label>
-        <label className="input input-bordered flex items-center gap-4 mb-4 rounded-3xl">
+        <label className="input input-bordered mb-4 flex items-center gap-4 rounded-3xl">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
@@ -34,22 +71,24 @@ export const Profilepage = () => {
           <input type="text" className="grow" placeholder="Email" />
         </label>
         <textarea
-          className="input textarea input-bordered h-40 w-full mb-4 rounded-3xl"
+          className="input textarea input-bordered mb-4 h-40 w-full rounded-3xl"
           placeholder="Enter Description"
         ></textarea>
-        <select 
-          className="select select-bordered w-full mb-4 rounded-3xl"
+        <select
+          className="select select-bordered mb-4 w-full rounded-3xl"
           onChange={handleRoleChange}
           defaultValue=""
         >
-          <option value="" disabled>Select roles</option>
+          <option value="" disabled>
+            Select roles
+          </option>
           <option value="Hacker">Hacker</option>
           <option value="Researcher">Researcher</option>
           <option value="Developer">Developer</option>
         </select>
 
         {selectedRole && (
-          <label className="input input-bordered flex items-center gap-4 mb-4 rounded-3xl">
+          <label className="input input-bordered mb-4 flex items-center gap-4 rounded-3xl">
             <input
               type="text"
               className="grow"
@@ -63,4 +102,3 @@ export const Profilepage = () => {
 };
 
 export default Profilepage;
-

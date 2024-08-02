@@ -99,7 +99,7 @@ const MapPage = () => {
   return (
     <div className="relative h-screen w-screen">
       <MapProvider>
-        <Navbar search={true} updateMarkers={updateMarkers} />
+        <Navbar updateMarkers={updateMarkers} />
         <Map
           id="darkMap"
           initialViewState={{

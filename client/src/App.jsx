@@ -2,10 +2,10 @@ import React from "react";
 import { AuthProvider } from "./components/AuthContext";
 import Home from "./integrals/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Profile from "./integrals/Profile";
 import PrivateRoute from "./components/Privateroute";
 import { UserProvider } from "./components/UserContext";
 import { MapProvider } from "react-map-gl/dist/esm/exports-maplibre";
+import Profilepage from "./integrals/Profilepage";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
                 path="/profile"
                 element={
                   <PrivateRoute>
-                    <Profile />
+                    <Profilepage />
                   </PrivateRoute>
                 }
               />
