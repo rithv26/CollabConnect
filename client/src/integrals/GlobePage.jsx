@@ -7,7 +7,7 @@ import * as topojson from "topojson-client";
 import landTopology from "../assets/land_10m.json";
 import Globe from "react-globe.gl";
 import { useAuthUpdate } from "../components/AuthContext";
-import logo from "../assets/bhaibhai.png";
+import logo from "../assets/logo.png";
 import TypedText from "../components/TypedText";
 import { ColorRing } from "react-loader-spinner";
 

@@ -7,7 +7,6 @@ const AutoComplete = () => {
   const options = {
     componentRestrictions: { country: "ng" }, // Restrict results to Nigeria
     fields: ["address_components", "geometry", "icon", "name"], // Desired fields
-    types: [ "street_number", "street_address", "sublocality","locality" ]
   };
 
   useEffect(() => {
