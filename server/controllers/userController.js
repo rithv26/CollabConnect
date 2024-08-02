@@ -61,7 +61,7 @@ const searchUsersByLocation = async (req, res) => {
       console.log('Returning early with empty array due to missing location.');
       return res.json([]);
     }
-    
+
     // Convert latitude and longitude to numbers
     const lat = parseFloat(latitude);
     const lon = parseFloat(longitude);
@@ -73,7 +73,7 @@ const searchUsersByLocation = async (req, res) => {
           $centerSphere: [[lon, lat], STANDARD_DISTANCE / 3963.2] // Convert miles to radians
         }
       }
-    } : {};
+    } : {profileCompleted: true};
 
     // Apply role filters
     if (!isHacker) query.isHacker = false;
@@ -88,7 +88,7 @@ const searchUsersByLocation = async (req, res) => {
   }
 };
 
-// Fetch all remote users with optional filters
+// NO LONGER NEEDED
 const searchRemoteUsers = async (req, res) => {
   try {
     const { isHacker, isDeveloper, isResearcher } = req.query;
