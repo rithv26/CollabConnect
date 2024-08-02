@@ -45,7 +45,7 @@ export const Profilepage = () => {
           </div>
         </div>
       </nav>
-
+      <div className="text-center text-white text-lg font-Montserrat">Please complete your profile to be on the map</div>
       <form style={{ width: "97%" }} className="absolute left-5 top-36 rounded-3xl bg-white bg-opacity-30 p-4">
         <label className="input input-bordered mb-4 flex items-center gap-4 rounded-3xl">
           <svg
