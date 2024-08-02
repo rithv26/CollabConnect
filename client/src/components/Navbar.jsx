@@ -206,9 +206,9 @@ function Navbar({ search = false, updateMarkers }) {
           </div>
 
           {/* Remote/In-Person Toggle */}
-          <div className="form-control">
+          <div className="form-control flex justify-between">
             <label className="label cursor-pointer">
-              <span className="label-text mr-3">Remote</span>
+              <div className="label-text w-20 mr-3 text-center">Collaborate Remotely</div>
               <input
                 type="checkbox"
                 className="toggle rounded-full"
@@ -222,7 +222,7 @@ function Navbar({ search = false, updateMarkers }) {
           {/* Map/List Toggle */}
           <div className="form-control">
             <label className="label cursor-pointer">
-              <span className="label-text mr-3">List View</span>
+              <div className="label-text mr-3 text-center w-10">List View</div>
               <input
                 type="checkbox"
                 className="toggle rounded-full"
