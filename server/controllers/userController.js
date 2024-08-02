@@ -55,25 +55,30 @@ const updateUserByAuth0Id = async (req, res) => {
 const STANDARD_DISTANCE = 50;
 const searchUsersByLocation = async (req, res) => {
   try {
-    const { latitude, longitude, isHacker, isDeveloper, isResearcher } = req.query;
+    const { latitude, longitude, isHacker, isDeveloper, isResearcher, remote } = req.query;
 
+    if (!remote && (!latitude || !longitude || latitude === 'null' || longitude === 'null')) {
+      console.log('Returning early with empty array due to missing location.');
+      return res.json([]);
+    }
+    
     // Convert latitude and longitude to numbers
     const lat = parseFloat(latitude);
     const lon = parseFloat(longitude);
 
     // Construct the query
-    let query = {
+    let query = (!remote) ? {
       location: {
         $geoWithin: {
           $centerSphere: [[lon, lat], STANDARD_DISTANCE / 3963.2] // Convert miles to radians
         }
       }
-    };
+    } : {};
 
     // Apply role filters
-    if (isHacker) query.isHacker = isHacker === 'true';
-    if (isDeveloper) query.isDeveloper = isDeveloper === 'true';
-    if (isResearcher) query.isResearcher = isResearcher === 'true';
+    if (!isHacker) query.isHacker = false;
+    if (!isDeveloper) query.isDeveloper = false;
+    if (!isResearcher) query.isResearcher = false;
 
     const users = await User.find(query);
 
