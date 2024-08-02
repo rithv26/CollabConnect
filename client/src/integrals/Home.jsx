@@ -1,8 +1,7 @@
 import React from "react";
 import { useAuth } from "../components/AuthContext";
-import Navbar from "../components/Navbar";
-import Globe from "./Globe";
-import Map from "./Map";
+import GlobePage from "./GlobePage";
+import MapPage from "./MapPage";
 import { ColorRing } from "react-loader-spinner";
 
 function Home() {
@@ -18,8 +17,7 @@ function Home() {
 
   return (
     <>
-      <Navbar />
-      <div>{isAuthenticated ? <Map /> : <Globe />}</div>
+      <div>{isAuthenticated ? <MapPage /> : <GlobePage />}</div>
     </>
   );
 }

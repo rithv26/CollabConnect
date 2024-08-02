@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
+import { useUser } from "../components/UserContext";
+import Navbar from "../components/Navbar";
 
 const Profile = () => {
+  const { userData } = useUser();
+
   return (
-    <h1>Profile</h1>
-  )
-}
+    <>
+      <Navbar />
+      <p>{JSON.stringify(userData)}</p>
+    </>
+  );
+};
 
 export default Profile;
