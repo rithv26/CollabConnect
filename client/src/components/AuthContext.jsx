@@ -8,10 +8,10 @@ const AuthUpdateContext = createContext();
 // we can just use useAuth0() directly in any component
 // However, this will make code more readable/intuitive
 export const AuthProvider = ({ children }) => {
-  const { isAuthenticated, isLoading, user, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, isLoading, user, loginWithRedirect, logout, getAccessTokenSilently, getAccessTokenWithPopup } = useAuth0();
 
   return (
-    <AuthContext.Provider value={{ isLoading, isAuthenticated, user }}>
+    <AuthContext.Provider value={{ isLoading, isAuthenticated, user, getAccessTokenSilently, getAccessTokenWithPopup }}>
       <AuthUpdateContext.Provider value={{ loginWithRedirect, logout }}>
         {children}
       </AuthUpdateContext.Provider>

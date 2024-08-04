@@ -19,7 +19,7 @@ function Navbar({ updateMarkers }) {
 
   // States for toggles and filter dropdown
   const [remote, setRemote] = useState(false);
-  const [viewType, setViewType] = useState(false); // false for map, true for list
+  // const [viewType, setViewType] = useState(false); 
   const [selectedFilters, setSelectedFilters] = useState([
     "Hackers",
     "Developers",

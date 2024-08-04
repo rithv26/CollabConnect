@@ -16,7 +16,7 @@ import CustomPopup from "../components/CustomPopup";
 import Modal from "../components/Modal";
 
 const MapPage = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, getAccessTokenSilently, getAccessTokenWithPopup } = useAuth();
   const [toWho, setToWho] = useState(""); // State to store the email content
   const [emailContent, setEmailContent] = useState(""); // State to store the email content
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,10 +30,19 @@ const MapPage = () => {
       try {
         if (isAuthenticated && user) {
           const auth0Id = user.sub;
-
+          const token = await getAccessTokenSilently({
+            authorizationParams: {
+              audience: `http://localhost:3000/api`,
+            },
+          });
+          
+          const headers = {
+            authorization: `Bearer ${token}` 
+          }
+          console.log(headers);
           // Check if user already exists
           const response = await axios.get(
-            `http://localhost:3000/api/users/${auth0Id}`,
+            `http://localhost:3000/api/users/${auth0Id}`, headers
           );
           console.log("User exists:", response.data);
           handleLoginSuccess(auth0Id);
@@ -42,11 +51,22 @@ const MapPage = () => {
         if (error.response && error.response.status === 404) {
           // If user does not exist, create an empty user
           try {
+            const token = await getAccessTokenSilently({
+              authorizationParams: {
+                audience: `http://localhost:3000/api`,
+              },
+            });
+          
+            const headers = {
+              authorization: `Bearer ${token}` 
+            }
+            console.log(headers);
+  
             const createResponse = await axios.post(
               "http://localhost:3000/api/users",
               {
                 auth0Id: user.sub,
-              },
+              }, headers
             );
             console.log("User created:", createResponse.data);
             handleLoginSuccess(user.sub);
@@ -61,7 +81,7 @@ const MapPage = () => {
     checkAndCreateUser();
   }, [isAuthenticated]);
 
-  const updateMarkers = (
+  const updateMarkers = async (
     lat,
     lng,
     hack = false,
@@ -89,8 +109,17 @@ const MapPage = () => {
         ? `http://localhost:3000/api/users/location?latitude=${lat}&longitude=${lng}`
         : `http://localhost:3000/api/users/location?latitude=${lat}&longitude=${lng}&${params.toString()}`;
     console.log(request);
+    const token = await getAccessTokenSilently({
+      authorizationParams: {
+        audience: `http://localhost:3000/api`,
+      },
+    });
+const headers = {
+      authorization: `Bearer ${token}` 
+    }
+    console.log(headers);
     axios
-      .get(request)
+      .get(request, headers)
       .then((response) => {
         const usersData = response.data;
         console.log("Fetched Users Data:", usersData);

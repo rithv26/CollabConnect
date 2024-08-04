@@ -24,35 +24,35 @@ function App() {
         console.log("Google Maps is ready.");
         setIsGoogleMapsAPILoaded(true);
       };
-    } else {
-      setIsGoogleMapsAPILoaded(true);
     }
   }, []);
 
   return (
-    <MapProvider>
-      <AuthProvider>
-        <UserProvider>
-          {isGoogleMapsAPILoaded ? (
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route
-                  path="/profile"
-                  element={
-                    <PrivateRoute>
-                      <Profilepage />
-                    </PrivateRoute>
-                  }
-                />
-              </Routes>
-            </BrowserRouter>
-          ) : (
-            <Loading />
-          )}
-        </UserProvider>
-      </AuthProvider>
-    </MapProvider>
+    <>
+      {isGoogleMapsAPILoaded ? (
+        <MapProvider>
+          <AuthProvider>
+            <UserProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route
+                    path="/profile"
+                    element={
+                      <PrivateRoute>
+                        <Profilepage />
+                      </PrivateRoute>
+                    }
+                  />
+                </Routes>
+              </BrowserRouter>
+            </UserProvider>
+          </AuthProvider>
+        </MapProvider>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }
 
