@@ -40,7 +40,7 @@ export const Profilepage = () => {
     }, 3000);
   };
 
-  const { user } = useAuth();
+  const { user, getAccessTokenSilently } = useAuth();
   const { logout } = useAuthUpdate();
   const { setCurrentUser } = useUser();
 
@@ -56,7 +56,7 @@ export const Profilepage = () => {
       timezone: selectedTimeZone,
       location: {
         type: "Point",
-        coordinates: [coordinates.lng,coordinates.lat],
+        coordinates: [coordinates.lng, coordinates.lat],
       },
       isHacker: isHacker,
       isResearcher: isResearcher,
@@ -65,12 +65,22 @@ export const Profilepage = () => {
       researchProfile: researchProfileLink,
       githubUsername: githubLink,
       previousHackathons: isHacker ? hackathons : [],
-      profileCompleted: true
+      profileCompleted: true,
     };
+    const token = await getAccessTokenSilently({
+      authorizationParams: {
+        audience: `http://localhost:3000/api`,
+      },
+    });
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    console.log(headers);
+
     console.log("Updated User Details:", newUser);
     const response = await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.sub}`,
-      newUser,
+      newUser, {headers}
     );
     console.log(response);
   };
@@ -222,8 +232,19 @@ export const Profilepage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        const token = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: `http://localhost:3000/api`,
+          },
+        });
+        const headers = {
+          authorization: `Bearer ${token}`,
+        };
+        console.log(headers);
+
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.sub}`,
+          { headers },
         );
         const data = response.data;
         setCurrentUser(data);
@@ -564,38 +585,38 @@ export const Profilepage = () => {
           </select>
         </label>
 
-        {(isExploding &&
+        {isExploding &&
           formName !== "" &&
           email !== "" &&
           description !== "" &&
-          selectedTimeZone !=="" && 
-          JSON.stringify(coordinates) !== "{ lat: null, lng: null }") && (
-              <div
-                role="alert"
-                className="alert alert-success fixed w-80 rounded-lg p-3 shadow-md"
-                style={{
-                  top: "10px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  zIndex: 100000, // Ensures it appears on top
-                }}
+          selectedTimeZone !== "" &&
+          JSON.stringify(coordinates) !== "{ lat: null, lng: null }" && (
+            <div
+              role="alert"
+              className="alert alert-success fixed w-80 rounded-lg p-3 shadow-md"
+              style={{
+                top: "10px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                zIndex: 100000, // Ensures it appears on top
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 shrink-0 stroke-current"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>{alert}</span>
-              </div>
-            )}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{alert}</span>
+            </div>
+          )}
 
         <button
           type="submit"

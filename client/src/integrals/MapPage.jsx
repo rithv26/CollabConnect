@@ -16,7 +16,11 @@ import CustomPopup from "../components/CustomPopup";
 import Modal from "../components/Modal";
 
 const MapPage = () => {
-  const { user, isAuthenticated, getAccessTokenSilently, getAccessTokenWithPopup } = useAuth();
+  const {
+    user,
+    isAuthenticated,
+    getAccessTokenSilently
+  } = useAuth();
   const [toWho, setToWho] = useState(""); // State to store the email content
   const [emailContent, setEmailContent] = useState(""); // State to store the email content
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,14 +39,15 @@ const MapPage = () => {
               audience: `http://localhost:3000/api`,
             },
           });
-          
+
           const headers = {
-            authorization: `Bearer ${token}` 
-          }
+            authorization: `Bearer ${token}`,
+          };
           console.log(headers);
           // Check if user already exists
           const response = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL}/api/users/${auth0Id}`, headers
+            `${import.meta.env.VITE_BACKEND_URL}/api/users/${auth0Id}`,
+            { headers },
           );
           console.log("User exists:", response.data);
           handleLoginSuccess(auth0Id);
@@ -56,17 +61,18 @@ const MapPage = () => {
                 audience: `http://localhost:3000/api`,
               },
             });
-          
+
             const headers = {
-              authorization: `Bearer ${token}` 
-            }
+              authorization: `Bearer ${token}`,
+            };
             console.log(headers);
-  
+
             const createResponse = await axios.post(
               `${import.meta.env.VITE_BACKEND_URL}/api/users`,
               {
                 auth0Id: user.sub,
-              }, headers
+              },
+              { headers },
             );
             console.log("User created:", createResponse.data);
             handleLoginSuccess(user.sub);
@@ -114,12 +120,12 @@ const MapPage = () => {
         audience: `http://localhost:3000/api`,
       },
     });
-const headers = {
-      authorization: `Bearer ${token}` 
-    }
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
     console.log(headers);
     axios
-      .get(request, headers)
+      .get(request, { headers })
       .then((response) => {
         const usersData = response.data;
         console.log("Fetched Users Data:", usersData);
@@ -160,11 +166,21 @@ const headers = {
 
   const handleSendEmail = async (emailText, toEmail) => {
     try {
+      const token = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: `http://localhost:3000/api`,
+        },
+      });
+      const headers = {
+        authorization: `Bearer ${token}`,
+      };
+      console.log(headers);
+
       await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/connect`, {
         to: [toEmail],
         subject: `Collaboration Request from ${currentUser.name}`,
         text: emailText,
-      });
+      }, {headers});
       alert("Email sent successfully!");
       setIsModalOpen(false);
     } catch (error) {
@@ -226,7 +242,7 @@ ${currentUser.name}`;
                 user={popupInfo}
                 onTeamUp={handleTeamUp}
                 isProfileComplete={currentUser.profileCompleted}
-                yourself = {popupInfo.auth0Id === currentUser.auth0Id}
+                yourself={popupInfo.auth0Id === currentUser.auth0Id}
               />
             </Popup>
           )}
@@ -238,7 +254,7 @@ ${currentUser.name}`;
         onClose={() => setIsModalOpen(false)}
         emailContent={emailContent}
         onSendEmail={handleSendEmail}
-        toWho = {toWho}
+        toWho={toWho}
       />
     </div>
   );
