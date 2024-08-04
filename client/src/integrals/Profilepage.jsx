@@ -69,7 +69,7 @@ export const Profilepage = () => {
     };
     console.log("Updated User Details:", newUser);
     const response = await axios.put(
-      `${import.meta.env.BACKEND_URL}/api/users/${user.sub}`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.sub}`,
       newUser,
     );
     console.log(response);
@@ -223,7 +223,7 @@ export const Profilepage = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.BACKEND_URL}/api/users/${user.sub}`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.sub}`,
         );
         const data = response.data;
         setCurrentUser(data);

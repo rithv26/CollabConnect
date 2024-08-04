@@ -23,7 +23,7 @@ const GlobePage = () => {
     const fetchUserLocations = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.BACKEND_URL}/api/users/globe`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/users/globe`,
         );
         setUserLocations(response.data);
         const arcs = generateRandomArcs(response.data);

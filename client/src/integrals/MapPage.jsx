@@ -42,7 +42,7 @@ const MapPage = () => {
           console.log(headers);
           // Check if user already exists
           const response = await axios.get(
-            `${import.meta.env.BACKEND_URL}/api/users/${auth0Id}`, headers
+            `${import.meta.env.VITE_BACKEND_URL}/api/users/${auth0Id}`, headers
           );
           console.log("User exists:", response.data);
           handleLoginSuccess(auth0Id);
@@ -63,7 +63,7 @@ const MapPage = () => {
             console.log(headers);
   
             const createResponse = await axios.post(
-              `${import.meta.env.BACKEND_URL}/api/users`,
+              `${import.meta.env.VITE_BACKEND_URL}/api/users`,
               {
                 auth0Id: user.sub,
               }, headers
@@ -106,8 +106,8 @@ const MapPage = () => {
 
     const request =
       params.toString() == ""
-        ? `${import.meta.env.BACKEND_URL}/api/users/location?latitude=${lat}&longitude=${lng}`
-        : `${import.meta.env.BACKEND_URL}/api/users/location?latitude=${lat}&longitude=${lng}&${params.toString()}`;
+        ? `${import.meta.env.VITE_BACKEND_URL}/api/users/location?latitude=${lat}&longitude=${lng}`
+        : `${import.meta.env.VITE_BACKEND_URL}/api/users/location?latitude=${lat}&longitude=${lng}&${params.toString()}`;
     console.log(request);
     const token = await getAccessTokenSilently({
       authorizationParams: {
@@ -160,7 +160,7 @@ const headers = {
 
   const handleSendEmail = async (emailText, toEmail) => {
     try {
-      await axios.post(`${import.meta.env.BACKEND_URL}/api/connect`, {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/connect`, {
         to: [toEmail],
         subject: `Collaboration Request from ${currentUser.name}`,
         text: emailText,
