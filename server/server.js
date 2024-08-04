@@ -6,6 +6,7 @@ require('dotenv').config();
 const morgan = require('morgan');
 const userRouter = require('./routes/userRoutes');
 const mailRouter = require('./routes/mailRoutes');
+const jwtCheck = require('./middleware/checkJWT');
 
 // Connect to MongoDB
 connectToDB();
@@ -14,6 +15,8 @@ connectToDB();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev')); // To set up a basic logger
+
+// app.use(jwtCheck);
 
 // Routes
 app.use('/api/users', userRouter);
