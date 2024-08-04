@@ -9,7 +9,7 @@ import Globe from "react-globe.gl";
 import { useAuthUpdate } from "../components/AuthContext";
 import logo from "../assets/logo.png";
 import TypedText from "../components/TypedText";
-import { ColorRing } from "react-loader-spinner";
+import Loading from "./Loading";
 
 const GlobePage = () => {
   const globeRef = useRef(null);
@@ -122,16 +122,7 @@ const GlobePage = () => {
   );
 
   if (!isGlobeReady) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-gray-950">
-        <ColorRing
-          colors={["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]}
-          width="60"
-          height="60"
-          color="#000000"
-        />
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
@@ -140,38 +131,30 @@ const GlobePage = () => {
         <img src={logo} alt="collabconnect" className="h-20 w-auto" />
         <button
           onClick={loginWithRedirect}
-          className="font-Montserrat rounded-2xl border-2 border-solid border-white bg-transparent px-4 py-3 text-base text-white transition-transform duration-300 hover:scale-105"
+          className="rounded-2xl border-2 border-solid border-white bg-transparent px-4 py-3 font-Montserrat text-base text-white transition-transform duration-300 hover:scale-105"
         >
           Login/Signup
         </button>
       </nav>
       <div className="m-0 cursor-move">{memoizedGlobe}</div>
-      <div className="mb-8 mt-5 text-center font-bold font-Montserrat text-4xl text-white">
+      <div className="mb-3 mt-5 text-center font-Quicksand text-3xl font-bold text-white">
         <TypedText
-          content="Join Our Global Network Today!"
+          content="Join us today & make your mark above!"
           speed={50}
           onComplete={() => setShowSecondText(true)}
         />
       </div>
+      {showSecondText && (
+        <div className="text-center font-mono text-xl text-white">
+          <TypedText
+            content="Discover like-minded peers and start building the future together"
+            speed={20}
+            onComplete={() => setShowSecondText(true)}
+          />
+        </div>
+      )}
     </div>
   );
 };
 
 export default GlobePage;
-
-// rendererConfig={{ antialias: true, alpha: true }}
-// customLayerData={[...Array(500).keys()].map(() => ({
-//   lat: (Math.random() - 1) * 360,
-//   lng: (Math.random() - 1) * 360,
-//   altitude: Math.random() * 2,
-//   size: Math.random() * 0.4,
-//   color: '#faadfd',
-// }))}
-// customThreeObject={(sliceData) => {
-//   const { size, color } = sliceData;
-//   return new THREE.Mesh(new THREE.SphereGeometry(size), new THREE.MeshBasicMaterial({ color }));
-// }}
-// customThreeObjectUpdate={(obj, sliceData) => {
-//   const { lat, lng, altitude } = sliceData;
-//   return Object.assign(obj.position, globeRef.current?.getCoords(lat, lng, altitude));
-// }}

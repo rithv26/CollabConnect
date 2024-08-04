@@ -213,7 +213,7 @@ function Navbar({ updateMarkers }) {
         </div>
 
         {/* Remote/In-Person Toggle */}
-        <div className="form-control flex justify-between">
+        <div className="form-control flex mr-12 justify-between">
           <label className="label cursor-pointer">
             <div className="label-text mr-3 w-20 text-center">
               Collaborate Remotely
@@ -228,8 +228,8 @@ function Navbar({ updateMarkers }) {
           </label>
         </div>
 
-        {/* Map/List Toggle */}
-        <div className="form-control">
+        {/* Map/List Toggle For Future (If feature is Added) */}
+        {/* <div className="form-control">
           <label className="label cursor-pointer">
             <div className="label-text mr-3 w-10 text-center">List View</div>
             <input
@@ -238,7 +238,7 @@ function Navbar({ updateMarkers }) {
               onChange={() => setViewType(!viewType)}
             />
           </label>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex-none">

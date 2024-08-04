@@ -186,7 +186,7 @@ ${currentUser.name}`;
 
           {popupInfo && (
             <Popup
-              className="w-30 h-96"
+              className="h-96"
               closeOnMove
               anchor="bottom"
               longitude={popupInfo.location.coordinates[0]}
@@ -197,6 +197,7 @@ ${currentUser.name}`;
                 user={popupInfo}
                 onTeamUp={handleTeamUp}
                 isProfileComplete={currentUser.profileCompleted}
+                yourself = {popupInfo.auth0Id === currentUser.auth0Id}
               />
             </Popup>
           )}
