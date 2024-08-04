@@ -10,10 +10,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Auth0Provider
       domain={import.meta.env.VITE_AUTH0_DOMAIN}
       clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
-      redirectUri={window.location.origin}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: "http://localhost:3000/api",
+      }}
       cacheLocation="localstorage"
-      scope="openid profile email"
-      audience="http://localhost:3000/api"
+      // redirectUri={window.location.origin}
+      // audience="http://localhost:3000/api"
     >
       <App />
     </Auth0Provider>

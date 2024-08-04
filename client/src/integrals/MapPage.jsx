@@ -16,11 +16,7 @@ import CustomPopup from "../components/CustomPopup";
 import Modal from "../components/Modal";
 
 const MapPage = () => {
-  const {
-    user,
-    isAuthenticated,
-    getAccessTokenSilently
-  } = useAuth();
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth();
   const [toWho, setToWho] = useState(""); // State to store the email content
   const [emailContent, setEmailContent] = useState(""); // State to store the email content
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,18 +24,27 @@ const MapPage = () => {
   const [users, setUsers] = useState([]);
   const [popupInfo, setPopupInfo] = useState(null);
   const mapRef = useRef();
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const newToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: `http://localhost:3000/api`,
+        },
+      });
+      console.log("TOken got:", newToken);
+      setToken(newToken);
+    };
+
+    fetchToken();
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const checkAndCreateUser = async () => {
       try {
-        if (isAuthenticated && user) {
+        if (isAuthenticated && user && token !== null) {
           const auth0Id = user.sub;
-          const token = await getAccessTokenSilently({
-            authorizationParams: {
-              audience: `http://localhost:3000/api`,
-            },
-          });
-
           const headers = {
             authorization: `Bearer ${token}`,
           };
@@ -53,15 +58,9 @@ const MapPage = () => {
           handleLoginSuccess(auth0Id);
         }
       } catch (error) {
-        if (error.response && error.response.status === 404) {
+        if (error.response && error.response.status === 404 && token !== null) {
           // If user does not exist, create an empty user
           try {
-            const token = await getAccessTokenSilently({
-              authorizationParams: {
-                audience: `http://localhost:3000/api`,
-              },
-            });
-
             const headers = {
               authorization: `Bearer ${token}`,
             };
@@ -95,45 +94,42 @@ const MapPage = () => {
     research = false,
     remote = false,
   ) => {
-    const params = new URLSearchParams();
+    if (token !== null) {
+      const params = new URLSearchParams();
 
-    if (hack) {
-      params.append("isHacker", "true");
-    }
-    if (dev) {
-      params.append("isDeveloper", "true");
-    }
-    if (research) {
-      params.append("isResearcher", "true");
-    }
-    if (remote) {
-      params.append("remote", "true");
-    }
+      if (hack) {
+        params.append("isHacker", "true");
+      }
+      if (dev) {
+        params.append("isDeveloper", "true");
+      }
+      if (research) {
+        params.append("isResearcher", "true");
+      }
+      if (remote) {
+        params.append("remote", "true");
+      }
 
-    const request =
-      params.toString() == ""
-        ? `${import.meta.env.VITE_BACKEND_URL}/api/users/location?latitude=${lat}&longitude=${lng}`
-        : `${import.meta.env.VITE_BACKEND_URL}/api/users/location?latitude=${lat}&longitude=${lng}&${params.toString()}`;
-    console.log(request);
-    const token = await getAccessTokenSilently({
-      authorizationParams: {
-        audience: `http://localhost:3000/api`,
-      },
-    });
-    const headers = {
-      authorization: `Bearer ${token}`,
-    };
-    console.log(headers);
-    axios
-      .get(request, { headers })
-      .then((response) => {
-        const usersData = response.data;
-        console.log("Fetched Users Data:", usersData);
-        setUsers(usersData);
-      })
-      .catch((error) => {
-        console.error("Error fetching nearby locations:", error);
-      });
+      const request =
+        params.toString() == ""
+          ? `${import.meta.env.VITE_BACKEND_URL}/api/users/location?latitude=${lat}&longitude=${lng}`
+          : `${import.meta.env.VITE_BACKEND_URL}/api/users/location?latitude=${lat}&longitude=${lng}&${params.toString()}`;
+      console.log(request);
+      const headers = {
+        authorization: `Bearer ${token}`,
+      };
+      console.log(headers);
+      axios
+        .get(request, { headers })
+        .then((response) => {
+          const usersData = response.data;
+          console.log("Fetched Users Data:", usersData);
+          setUsers(usersData);
+        })
+        .catch((error) => {
+          console.error("Error fetching nearby locations:", error);
+        });
+    }
   };
 
   const markers = useMemo(
@@ -165,27 +161,28 @@ const MapPage = () => {
   );
 
   const handleSendEmail = async (emailText, toEmail) => {
-    try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: `http://localhost:3000/api`,
-        },
-      });
-      const headers = {
-        authorization: `Bearer ${token}`,
-      };
-      console.log(headers);
+    if (token !== null) {
+      try {
+        const headers = {
+          authorization: `Bearer ${token}`,
+        };
+        console.log(headers);
 
-      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/connect`, {
-        to: [toEmail],
-        subject: `Collaboration Request from ${currentUser.name}`,
-        text: emailText,
-      }, {headers});
-      alert("Email sent successfully!");
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error("Error sending email:", error);
-      alert("Failed to send email.");
+        await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/api/connect`,
+          {
+            to: [toEmail],
+            subject: `Collaboration Request from ${currentUser.name}`,
+            text: emailText,
+          },
+          { headers },
+        );
+        alert("Email sent successfully!");
+        setIsModalOpen(false);
+      } catch (error) {
+        console.error("Error sending email:", error);
+        alert("Failed to send email.");
+      }
     }
   };
 
