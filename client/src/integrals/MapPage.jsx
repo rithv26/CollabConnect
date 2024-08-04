@@ -84,7 +84,7 @@ const MapPage = () => {
       }
     };
     checkAndCreateUser();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, token]);
 
   const updateMarkers = async (
     lat,
