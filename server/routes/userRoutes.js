@@ -8,12 +8,16 @@ const {
   searchUsersByLocation,
   getAllUserLocations,
 } = require("../controllers/userController");
+const jwtCheck = require('../middleware/checkJWT');
 
-router.get("/location", searchUsersByLocation);
-router.get("/remote", searchRemoteUsers);
+
+
+router.get("/location", jwtCheck, searchUsersByLocation);
+router.get("/remote", jwtCheck, searchRemoteUsers);
 router.get("/globe", getAllUserLocations);
-router.post("/", addUser);
+router.post("/", jwtCheck, addUser);
 router.route("/:auth0Id").
+    all(jwtCheck).
     get(getUserByAuth0Id).
     put(updateUserByAuth0Id);
 
