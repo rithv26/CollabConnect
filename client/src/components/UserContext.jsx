@@ -19,7 +19,7 @@ export const UserProvider = ({ children }) => {
       }
       console.log(headers);
       const response = await axios.get(
-        `http://localhost:3000/api/users/${auth0Id}`, headers
+        `${import.meta.env.BACKEND_URL}/api/users/${auth0Id}`, headers
       );
       setCurrentUser(response.data);
       console.log("it was succesful");
