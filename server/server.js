@@ -14,7 +14,10 @@ connectToDB();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev')); // To set up a basic logger
-
+app.use((req, res, next) => {
+    console.log(req.headers.authorization);
+    next();
+})
 
 // Routes
 app.use('/api/users', userRouter);
