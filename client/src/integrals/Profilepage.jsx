@@ -264,7 +264,7 @@ export const Profilepage = () => {
           setHackathons(data.isHacker ? data.previousHackathons : [""]);
           setDevpostLink(data.devpostProfile);
           setResearchProfileLink(data.researchProfile);
-          setGithubLink(data.githubLink);
+          setGithubLink(data.githubUsername);
         } else {
           setAlert("Your profile has been completed");
           setButtonMsg("Complete Profile");
