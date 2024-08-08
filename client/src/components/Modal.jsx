@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const Modal = ({ isOpen, onClose, emailContent, onSendEmail, toWho, feedback=false }) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  emailContent,
+  onSendEmail,
+  toWho,
+  feedback = false,
+}) => {
   const [emailText, setEmailText] = useState(emailContent);
   const textAreaRef = useRef(null);
 
@@ -15,11 +22,7 @@ const Modal = ({ isOpen, onClose, emailContent, onSendEmail, toWho, feedback=fal
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent">
-      <div
-        className={`w-[450px] rounded-2xl p-4 ${
-          feedback ? "bg-black bg-opacity-80" : "bg-black bg-opacity-80"
-        }`}
-      >
+      <div className="w-[450px] rounded-2xl bg-black bg-opacity-80 p-4">
         <h1 className="mb-4 ml-2 font-Quicksand text-xl font-bold">
           {feedback ? "Feedback" : "Send Email"}
         </h1>
