@@ -1,6 +1,6 @@
 import React from "react";
 
-const CustomPopup = ({ user, onTeamUp, isProfileComplete, yourself }) => {
+const CustomPopup = ({ user, onTeamUp, isProfileComplete, yourself, disabledtext="Please complete your profile to team up" }) => {
   const badgeColor = "#b3e6ff"; // Same blue color as the markers
 
   return (
@@ -103,7 +103,7 @@ const CustomPopup = ({ user, onTeamUp, isProfileComplete, yourself }) => {
         >
           {isProfileComplete
             ? "Team Up"
-            : "Please complete your profile to team up"}
+            : disabledtext}
         </button>
       )}
     </div>

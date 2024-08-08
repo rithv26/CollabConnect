@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState, useRef, useMemo } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import * as THREE from "three";
@@ -10,6 +11,7 @@ import { useAuthUpdate } from "../components/AuthContext";
 import logo from "../assets/logo.png";
 import TypedText from "../components/TypedText";
 import Loading from "./Loading";
+import { Ourteam } from "../components/Ourteam";
 
 const GlobePage = () => {
   const globeRef = useRef(null);
@@ -17,7 +19,7 @@ const GlobePage = () => {
   const [userLocations, setUserLocations] = useState([]);
   const [arcsData, setArcsData] = useState([]);
   const [showSecondText, setShowSecondText] = useState(false);
-  const [isGlobeReady, setIsGlobeReady] = useState(false);
+  const [isGlobeReady, setIsGlobeReady] = useState(true);
 
   useEffect(() => {
     const fetchUserLocations = async () => {
@@ -128,15 +130,28 @@ const GlobePage = () => {
   return (
     <div className="min-h-screen w-full bg-gray-950">
       <nav className="mb-0 flex w-full items-center justify-between bg-transparent pb-0 pl-10 pr-10 pt-10">
-        <img src={logo} alt="collabconnect" className="h-20 w-auto" />
-        <button
-          onClick={loginWithRedirect}
-          className="rounded-2xl border-2 border-solid border-white bg-transparent px-4 py-3 font-Montserrat text-base text-white transition-transform duration-300 hover:scale-105"
-        >
-          Login/Signup
-        </button>
+        <Link to="/">
+          <img src={logo} alt="collabconnect" className="h-20 w-auto" />
+        </Link>
+        <div>
+          <Link
+            to="/ourteam"
+            className="group relative mr-5 rounded-2xl bg-transparent px-4 py-3 font-Montserrat text-base text-white transition-transform duration-300 hover:scale-105"
+          >
+            Our Team
+            <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-[#b3e6ff] transition-transform duration-500 ease-in-out group-hover:scale-x-100"></span>
+          </Link>
+
+          <button
+            onClick={loginWithRedirect}
+            className="rounded-2xl border-2 border-solid border-white bg-transparent px-4 py-3 font-Montserrat text-base text-white transition-transform duration-300 hover:scale-105"
+          >
+            Login/Signup
+          </button>
+        </div>
       </nav>
       <div className="m-0 cursor-move">{memoizedGlobe}</div>
+      <div className="m-0 cursor-move"></div>
       <div className="mb-3 mt-5 text-center font-Quicksand text-3xl font-bold text-white">
         <TypedText
           content="Join us today & make your mark above!"
