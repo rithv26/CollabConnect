@@ -11,7 +11,6 @@ import { useAuthUpdate } from "../components/AuthContext";
 import logo from "../assets/logo.png";
 import TypedText from "../components/TypedText";
 import Loading from "./Loading";
-import { Ourteam } from "../components/Ourteam";
 
 const GlobePage = () => {
   const globeRef = useRef(null);
@@ -136,7 +135,7 @@ const GlobePage = () => {
         <div>
           <Link
             to="/ourteam"
-            className="group relative mr-5 rounded-2xl bg-transparent px-4 py-3 font-Montserrat text-base text-white transition-transform duration-300 hover:scale-105"
+            className="group relative mr-9 bg-transparent py-3 font-Montserrat text-base text-white transition-transform duration-300"
           >
             Our Team
             <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-[#b3e6ff] transition-transform duration-500 ease-in-out group-hover:scale-x-100"></span>

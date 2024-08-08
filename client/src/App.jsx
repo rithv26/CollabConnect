@@ -7,7 +7,7 @@ import { UserProvider } from "./components/UserContext";
 import { MapProvider } from "react-map-gl/dist/esm/exports-maplibre";
 import Profilepage from "./integrals/Profilepage";
 import Loading from "./integrals/Loading";
-import { Ourteam } from "./components/Ourteam";
+import { Ourteam } from "./integrals/Ourteam";
 
 function App() {
   const [isGoogleMapsAPILoaded, setIsGoogleMapsAPILoaded] = useState(false);
