@@ -1,7 +1,7 @@
 const z = require('zod');
 
 const userValidationSchema = z.object({
-  auth0Id: z.string(),
+  auth0Id: z.string().optional(),
   name: z.string().optional(),
   email: z.string().email().optional().or(z.literal('')),
   description: z.string().max(500).optional(),
@@ -11,13 +11,13 @@ const userValidationSchema = z.object({
   isResearcher: z.boolean().optional(),
   timezone: z.string().optional(),
   location: z.object({
-    type: z.literal("Point").optional(),
-    coordinates: z.tuple([z.number(), z.number()]).optional()
+    type: z.literal("Point"),
+    coordinates: z.tuple([z.number(), z.number()])
   }).optional(),
   previousHackathons: z.array(z.string()).optional(),
   devpostProfile: z.string().url().optional().or(z.literal('')),
   researchProfile: z.string().url().optional().or(z.literal('')),
-  githubUsername: z.string().optional()
+  githubUsername: z.string().optional().or(z.literal(''))
 });
 
 module.exports = userValidationSchema;
