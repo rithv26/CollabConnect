@@ -51,6 +51,45 @@ const updateUserByAuth0Id = async (req, res) => {
   }
 };
 
+//Delete user by Auth0 ID
+const deleteUser = async (req, res) => {
+  try {
+    const { auth0Id } = req.params;
+
+    // Find the user by auth0Id
+    const user = await User.findOne({ auth0Id });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Reset user data to default values
+    user.name = "Anonymous";
+    user.email = "";
+    user.description = "";
+    user.profileCompleted = false;
+    user.isHacker = false;
+    user.isDeveloper = false;
+    user.isResearcher = false;
+    user.timezone = "UTC";
+    user.location = {
+      type: "Point",
+      coordinates: [0, 0]
+    };
+    user.previousHackathons = [];
+    user.devpostProfile = "";
+    user.researchProfile = "";
+    user.githubUsername = "";
+
+    // Save the updated user
+    await user.save();
+
+    res.json({ message: 'User profile deleted successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Define a standard distance in miles
 const STANDARD_DISTANCE = 50;
 const searchUsersByLocation = async (req, res) => {
@@ -129,4 +168,5 @@ module.exports = {
   searchUsersByLocation,
   searchRemoteUsers,
   getAllUserLocations,
+  deleteUser
 };
