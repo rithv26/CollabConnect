@@ -7,6 +7,7 @@ const {
   searchRemoteUsers,
   searchUsersByLocation,
   getAllUserLocations,
+  deleteUser,
 } = require("../controllers/userController");
 const jwtCheck = require('../middleware/checkJWT');
 
@@ -19,6 +20,7 @@ router.post("/", jwtCheck, addUser);
 router.route("/:auth0Id").
     all(jwtCheck).
     get(getUserByAuth0Id).
-    put(updateUserByAuth0Id);
+    put(updateUserByAuth0Id).
+    delete(deleteUser);
 
 module.exports = router;
