@@ -40,56 +40,6 @@ export const Profilepage = () => {
     }, 3000);
   };
 
-  const handleDeleteProfile = async () => {
-    try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: `http://localhost:3000/api`,
-        },
-      });
-      const headers = {
-        authorization: `Bearer ${token}`,
-      };
-
-      // Include the auth0Id in the URL
-      await axios.delete(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.sub}`,
-        { headers },
-      );
-
-      setIsExploding(true);
-      setAlert("Your profile has been deleted");
-
-      setTimeout(() => {
-        setIsExploding(false);
-        // Reset the form and state after successful deletion
-        setCurrentUser(null);
-        setButtonMsg("Complete Profile");
-        setInfoMessage(
-          "Please complete your profile to become visible to other users",
-        );
-        setHackathons([""]);
-        setIsHacker(false);
-        setIsResearcher(false);
-        setIsDeveloper(false);
-        setDevpostLink("");
-        setResearchProfileLink("");
-        setGithubLink("");
-        setFormName("");
-        setEmail("");
-        setDescription("");
-        setSelectedTimeZone("");
-        setCoordinates({ lat: null, lng: null });
-        setValue("");
-      }, 3000);
-    } catch (error) {
-      console.error("Error deleting profile:", error);
-      setAlert("Failed to delete profile");
-      setIsExploding(true);
-      setTimeout(() => setIsExploding(false), 3000);
-    }
-  };
-
   const { user, getAccessTokenSilently } = useAuth();
   const { logout } = useAuthUpdate();
   const { setCurrentUser } = useUser();
@@ -117,37 +67,22 @@ export const Profilepage = () => {
       previousHackathons: isHacker ? hackathons : [],
       profileCompleted: true,
     };
+    const token = await getAccessTokenSilently({
+      authorizationParams: {
+        audience: `http://localhost:3000/api`,
+      },
+    });
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    console.log(headers);
 
-    try {
-      const token = await getAccessTokenSilently({
-        authorizationParams: {
-          audience: `http://localhost:3000/api`,
-        },
-      });
-      const headers = {
-        authorization: `Bearer ${token}`,
-      };
-      console.log(headers);
-
-      console.log("Updated User Details:", newUser);
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.sub}`,
-        newUser,
-        { headers },
-      );
-      console.log(response);
-
-      // Update local state
-      setButtonMsg("Update Profile");
-      setAlert("Your profile has been updated");
-      setIsExploding(true);
-      setTimeout(() => setIsExploding(false), 3000);
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      setAlert("Failed to update profile");
-      setIsExploding(true);
-      setTimeout(() => setIsExploding(false), 3000);
-    }
+    console.log("Updated User Details:", newUser);
+    const response = await axios.put(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.sub}`,
+      newUser, {headers}
+    );
+    console.log(response);
   };
 
   const handleRoleSelection = (roleType, isSelected) => {
@@ -650,54 +585,46 @@ export const Profilepage = () => {
           </select>
         </label>
 
-        {isExploding && (
-          <div
-            role="alert"
-            className={`alert ${
-              alert.includes("deleted") ? "alert-error" : "alert-success"
-            } fixed w-80 rounded-lg p-3 shadow-md`}
-            style={{
-              top: "10px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              zIndex: 100000,
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 shrink-0 stroke-current"
-              fill="none"
-              viewBox="0 0 24 24"
+        {isExploding &&
+          formName !== "" &&
+          email !== "" &&
+          description !== "" &&
+          selectedTimeZone !== "" &&
+          JSON.stringify(coordinates) !== "{ lat: null, lng: null }" && (
+            <div
+              role="alert"
+              className="alert alert-success fixed w-80 rounded-lg p-3 shadow-md"
+              style={{
+                top: "10px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                zIndex: 100000, // Ensures it appears on top
+              }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <span>{alert}</span>
-          </div>
-        )}
-
-        <div className="mt-16 flex justify-start space-x-4">
-          <button
-            type="submit"
-            onClick={handleButtonClick}
-            className="btn w-44 bg-blue-500 font-Quicksand text-base hover:bg-blue-600"
-          >
-            {buttonMsg}
-          </button>
-          {buttonMsg === "Update Profile" && (
-            <button
-              type="button"
-              onClick={handleDeleteProfile}
-              className="btn w-44 bg-red-500 font-Quicksand text-base hover:bg-red-600"
-            >
-              Delete Profile
-            </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 shrink-0 stroke-current"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span>{alert}</span>
+            </div>
           )}
-        </div>
+
+        <button
+          type="submit"
+          onClick={handleButtonClick}
+          className="btn mt-16 w-44 bg-blue-500 font-Quicksand text-base hover:bg-blue-600"
+        >
+          {buttonMsg}
+        </button>
       </form>
     </div>
   );
