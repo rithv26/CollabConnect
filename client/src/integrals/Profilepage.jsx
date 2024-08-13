@@ -590,7 +590,7 @@ export const Profilepage = () => {
           email !== "" &&
           description !== "" &&
           selectedTimeZone !== "" &&
-          JSON.stringify(coordinates) !== "{ lat: null, lng: null }" && (
+          coordinates.lat !== null && (
             <div
               role="alert"
               className="alert alert-success fixed w-80 rounded-lg p-3 shadow-md"
