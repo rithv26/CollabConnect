@@ -11,7 +11,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 
-function Navbar({ updateMarkers }) {
+function SearchBar({ updateMarkers }) {
   const { user } = useAuth();
   const { logout } = useAuthUpdate();
 
@@ -113,7 +113,7 @@ function Navbar({ updateMarkers }) {
           }`}
           onClick={() => handleSuggestionClick(suggestion)}
         >
-          <span className="text-black">{main_text}</span>{" "}
+          <span className="text-black">{main_text}</span>
           <small className="text-gray-700">{secondary_text}</small>
         </li>
       );
@@ -132,7 +132,7 @@ function Navbar({ updateMarkers }) {
 
   return (
     <div
-      className="absolute left-5 right-5 top-0 z-10 mt-7 flex items-center justify-between rounded-3xl bg-white bg-opacity-30 p-2"
+      className="absolute left-1/2 transform -translate-x-1/2 z-10 mt-7 flex items-center justify-between rounded-3xl bg-white bg-opacity-30 p-2"
       style={{ width: "97%" }}
     >
       <div className="flex-none px-2">
@@ -265,4 +265,4 @@ function Navbar({ updateMarkers }) {
   );
 }
 
-export default Navbar;
+export default SearchBar;

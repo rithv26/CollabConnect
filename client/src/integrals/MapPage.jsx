@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import SearchBar from "../components/SearchBar";
 import { useAuth } from "../components/AuthContext";
 import { useUser } from "../components/UserContext";
 import Map, {
@@ -206,7 +206,7 @@ ${currentUser.name}`;
   return (
     <div className="relative h-screen w-screen">
       <MapProvider>
-        <Navbar updateMarkers={updateMarkers} />
+        <SearchBar updateMarkers={updateMarkers} />
         <Map
           id="darkMap"
           initialViewState={{

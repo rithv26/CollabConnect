@@ -191,7 +191,7 @@ export const Profilepage = () => {
           onClick={() => handleSuggestionClick(suggestion)}
         >
           <span className="text-black">
-            {main_text + ", " + secondary_text}
+            {secondary_text ? (main_text + ", " + secondary_text) : (main_text)} 
           </span>
         </li>
       );
@@ -296,7 +296,7 @@ export const Profilepage = () => {
       className="flex min-h-svh flex-col items-center justify-center overflow-y-auto pb-5"
     >
       <nav
-        className="start mt-7 flex h-[72px] items-center justify-between rounded-3xl bg-gray-900 bg-opacity-40 p-2"
+        className="mt-7 flex h-[72px] items-center justify-between rounded-3xl bg-gray-900 bg-opacity-40 p-2"
         style={{ width: "97%" }}
       >
         <div className="flex-none px-2">
