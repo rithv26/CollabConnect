@@ -22,6 +22,8 @@ const GlobePage = () => {
 
   useEffect(() => {
     const fetchUserLocations = async () => {
+      console.log(window.innerHeight);
+      
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/users/globe`,
@@ -80,7 +82,7 @@ const GlobePage = () => {
   const memoizedGlobe = useMemo(
     () => (
       <Globe
-        height={550}
+        height={window.innerHeight * 0.675}
         ref={globeRef}
         onGlobeReady={globeReady}
         backgroundColor="#00000000"
@@ -120,7 +122,7 @@ const GlobePage = () => {
       />
     ),
     [userLocations],
-  );
+  );  
 
   if (!isGlobeReady) {
     return <Loading />;
@@ -130,12 +132,16 @@ const GlobePage = () => {
     <div className="min-h-screen w-full bg-gray-950">
       <nav className="mb-0 flex w-full items-center justify-between bg-transparent pb-0 pl-10 pr-10 pt-10">
         <Link to="/">
-          <img src={logo} alt="collabconnect" className="h-20 w-auto" />
+          <img
+            src={logo}
+            alt="collabconnect"
+            className="24inches:h-24 27inches:h-32 h-20 w-auto"
+          />
         </Link>
         <div>
           <Link
             to="/ourteam"
-            className="group relative mr-9 bg-transparent py-3 font-Montserrat text-base text-white transition-transform duration-300"
+            className="24inches:text-2xl 24inches:py-6 27inches:text-4xl 27inches:py-10 group relative mr-9 bg-transparent py-3 font-Montserrat text-base text-white transition-transform duration-300"
           >
             Our Team
             <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-[#b3e6ff] transition-transform duration-500 ease-in-out group-hover:scale-x-100"></span>
@@ -143,26 +149,25 @@ const GlobePage = () => {
 
           <button
             onClick={loginWithRedirect}
-            className="rounded-2xl border-2 border-solid border-white bg-transparent px-4 py-3 font-Montserrat text-base text-white transition-transform duration-300 hover:scale-105"
+            className="24inches:text-2xl 24inches:py-6 24inches:px-7 24inches:rounded-[28px] 27inches:text-4xl 27inches:py-8 27inches:px-9 27inches:rounded-[31px] rounded-2xl border-2 border-solid border-white bg-transparent px-4 py-3 font-Montserrat text-base text-white transition-transform duration-300 hover:scale-105"
           >
             Login/Signup
           </button>
         </div>
       </nav>
       <div className="m-0 cursor-move">{memoizedGlobe}</div>
-      <div className="m-0 cursor-move"></div>
-      <div className="mb-3 mt-5 text-center font-Quicksand text-3xl font-bold text-white">
+      <div className="24inches:text-4xl 27inches:text-6xl mb-3 mt-6 text-center font-Quicksand text-3xl font-bold text-white">
         <TypedText
           content="Join us today & make your mark above!"
-          speed={50}
+          speed={18}
           onComplete={() => setShowSecondText(true)}
         />
       </div>
       {showSecondText && (
-        <div className="text-center font-mono text-xl text-white">
+        <div className="24inches:text-3xl 27inches:text-5xl 27inches:mt-5 text-center font-mono text-xl text-white">
           <TypedText
             content="Discover like-minded peers and start building the future together"
-            speed={20}
+            speed={15}
             onComplete={() => setShowSecondText(true)}
           />
         </div>
