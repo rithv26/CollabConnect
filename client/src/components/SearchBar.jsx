@@ -19,7 +19,7 @@ function SearchBar({ updateMarkers }) {
 
   // States for toggles and filter dropdown
   const [remote, setRemote] = useState(false);
-  // const [viewType, setViewType] = useState(false); 
+  // const [viewType, setViewType] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([
     "Hackers",
     "Developers",
@@ -113,7 +113,7 @@ function SearchBar({ updateMarkers }) {
           }`}
           onClick={() => handleSuggestionClick(suggestion)}
         >
-          <span className="text-black">{main_text}</span>
+          <span className="text-black">{main_text}</span>{" "}
           <small className="text-gray-700">{secondary_text}</small>
         </li>
       );
@@ -132,7 +132,7 @@ function SearchBar({ updateMarkers }) {
 
   return (
     <div
-      className="absolute left-1/2 transform -translate-x-1/2 z-10 mt-7 flex items-center justify-between rounded-3xl bg-white bg-opacity-30 p-2"
+      className="absolute left-1/2 z-10 mt-7 flex -translate-x-1/2 transform items-center justify-between rounded-3xl bg-white bg-opacity-30 p-2"
       style={{ width: "97%" }}
     >
       <div className="flex-none px-2">
@@ -213,7 +213,7 @@ function SearchBar({ updateMarkers }) {
         </div>
 
         {/* Remote/In-Person Toggle */}
-        <div className="form-control flex mr-12 justify-between">
+        <div className="form-control mr-12 flex justify-between">
           <label className="label cursor-pointer">
             <div className="label-text mr-3 w-20 text-center">
               Collaborate Remotely

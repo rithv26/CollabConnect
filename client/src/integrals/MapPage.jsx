@@ -228,7 +228,8 @@ ${currentUser.name}`;
 
           {popupInfo && (
             <Popup
-              className="h-96"
+            className="custom-popup"
+              maxWidth={window.innerWidth < 2560 ? "300px" : "600px"}
               closeOnMove
               anchor="bottom"
               longitude={popupInfo.location.coordinates[0]}
