@@ -14,6 +14,7 @@ import Map, {
 import "../App.css";
 import CustomPopup from "../components/CustomPopup";
 import Modal from "../components/Modal";
+import InfoTooltip from "../components/InfoTooltip";
 
 const MapPage = () => {
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth();
@@ -228,7 +229,7 @@ ${currentUser.name}`;
 
           {popupInfo && (
             <Popup
-            className="custom-popup"
+              className="custom-popup"
               maxWidth={window.innerWidth < 2560 ? "300px" : "600px"}
               closeOnMove
               anchor="bottom"
@@ -254,6 +255,12 @@ ${currentUser.name}`;
         onSendEmail={handleSendEmail}
         toWho={toWho}
       />
+
+      <div className="absolute bottom-[5px] left-[5px] z-[1000] p-0">
+        <InfoTooltip
+          message={"Click on the dots to display user information"}
+        />
+      </div>
     </div>
   );
 };

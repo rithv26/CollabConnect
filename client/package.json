@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
     "@heroicons/react": "^1.0.6",
+    "@mui/icons-material": "^5.16.7",
+    "@mui/material": "^5.16.7",
     "@react-google-maps/api": "^2.19.3",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
