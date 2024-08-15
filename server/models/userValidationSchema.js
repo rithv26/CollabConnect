@@ -1,7 +1,7 @@
 const z = require('zod');
 
 const userValidationSchema = z.object({
-  auth0Id: z.string().optional(),
+  auth0Id: z.string(),
   name: z.string().optional(),
   email: z.string().email().optional().or(z.literal('')),
   description: z.string().max(500).optional(),
