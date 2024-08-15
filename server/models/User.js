@@ -5,8 +5,7 @@ const UserSchema = new mongoose.Schema(
     auth0Id: {
       type: String,
       unique: true,
-      default: "",
-      required: [true, "Auth0 ID is required"],
+      default: ""
     },
     name: {
       type: String,

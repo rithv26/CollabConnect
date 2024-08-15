@@ -17,9 +17,11 @@ const userValidationSchema = require('../models/userValidationSchema');
 router.get("/location", jwtCheck, searchUsersByLocation);
 router.get("/remote", jwtCheck, searchRemoteUsers);
 router.get("/globe", getAllUserLocations);
-router.post("/", jwtCheck, zodValidate(userValidationSchema), addUser);
+router.post("/", zodValidate(userValidationSchema), addUser);
+
+//auth0ID handling
 router.get("/:auth0Id", jwtCheck, getUserByAuth0Id);
-router.put("/:auth0Id", jwtCheck, updateUserByAuth0Id);
+router.put("/:auth0Id", jwtCheck, zodValidate(userValidationSchema), updateUserByAuth0Id);
 router.delete("/:auth0Id", deleteUser);
 
 module.exports = router;
