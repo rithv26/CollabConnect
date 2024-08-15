@@ -14,14 +14,12 @@ const zodValidate = require('../middleware/zodValidate');
 const userValidationSchema = require('../models/userValidationSchema');
 
 
-router.get("/location", jwtCheck, zodValidate(userValidationSchema), searchUsersByLocation);
-router.get("/remote", jwtCheck, zodValidate(userValidationSchema), searchRemoteUsers);
+router.get("/location", jwtCheck, searchUsersByLocation);
+router.get("/remote", jwtCheck, searchRemoteUsers);
 router.get("/globe", getAllUserLocations);
 router.post("/", jwtCheck, zodValidate(userValidationSchema), addUser);
-router.route("/:auth0Id").
-    all(jwtCheck).
-    get(getUserByAuth0Id).
-    put(updateUserByAuth0Id)
-    .delete(deleteUser);
+router.get("/:auth0Id", jwtCheck, getUserByAuth0Id);
+router.put("/:auth0Id", jwtCheck, updateUserByAuth0Id);
+router.delete("/:auth0Id", deleteUser);
 
 module.exports = router;
