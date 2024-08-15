@@ -3,7 +3,7 @@ const z = require('zod');
 const userValidationSchema = z.object({
   auth0Id: z.string(),
   name: z.string().optional(),
-  email: z.string().email().optional().or(z.literal('')),
+  email: z.string().optional().or(z.literal('')),
   description: z.string().max(500).optional(),
   profileCompleted: z.boolean().optional(),
   isHacker: z.boolean().optional(),
@@ -15,8 +15,8 @@ const userValidationSchema = z.object({
     coordinates: z.tuple([z.number(), z.number()])
   }).optional(),
   previousHackathons: z.array(z.string()).optional(),
-  devpostProfile: z.string().url().optional().or(z.literal('')),
-  researchProfile: z.string().url().optional().or(z.literal('')),
+  devpostProfile: z.string().optional().or(z.literal('')),
+  researchProfile: z.string().optional().or(z.literal('')),
   githubUsername: z.string().optional().or(z.literal(''))
 });
 

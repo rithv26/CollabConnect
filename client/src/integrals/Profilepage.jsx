@@ -535,7 +535,7 @@ export const Profilepage = () => {
             <input
               required
               type="text"
-              placeholder="Enter GitHub link"
+              placeholder="Enter GitHub Link"
               className="input input-bordered w-[297px]"
               value={githubLink}
               onChange={(e) => setGithubLink(e.target.value)}
