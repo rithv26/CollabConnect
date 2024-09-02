@@ -11,6 +11,8 @@ import usePlacesAutocomplete, {
 import axios from "axios";
 
 export const Profilepage = () => {
+  const [deleteAlert, setDeleteAlert] = useState(false);
+  const [isProfileCompleted, setIsProfileCompleted] = useState(false);
   const [hackathons, setHackathons] = useState([""]); // Start with one empty input string
   const [selectedTimeZone, setSelectedTimeZone] = useState("");
   const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
@@ -47,6 +49,29 @@ export const Profilepage = () => {
   const locationRef = useRef(null);
   const suggestionsRef = useRef(null);
 
+  const handleDeleteClick = async (event) => {
+    const token = await getAccessTokenSilently({
+      authorizationParams: {
+        audience: `http://localhost:3000/api`,
+      },
+    });
+    const headers = {
+      authorization: `Bearer ${token}`,
+    };
+    const response = await axios.delete(
+      `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.sub}`,
+      { headers },
+    );
+    console.log(response);
+    setDeleteAlert(true);
+
+    setTimeout(() => {
+      setDeleteAlert(false);
+      console.log("Deleted successfully!");
+      window.location.reload();
+    }, 3000);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent the default form submission
     const newUser = {
@@ -80,7 +105,8 @@ export const Profilepage = () => {
     console.log("Updated User Details:", newUser);
     const response = await axios.put(
       `${import.meta.env.VITE_BACKEND_URL}/api/users/${user.sub}`,
-      newUser, {headers}
+      newUser,
+      { headers },
     );
     console.log(response);
   };
@@ -191,7 +217,7 @@ export const Profilepage = () => {
           onClick={() => handleSuggestionClick(suggestion)}
         >
           <span className="text-black">
-            {secondary_text ? (main_text + ", " + secondary_text) : (main_text)} 
+            {secondary_text ? main_text + ", " + secondary_text : main_text}
           </span>
         </li>
       );
@@ -250,6 +276,7 @@ export const Profilepage = () => {
         setCurrentUser(data);
 
         if (data.profileCompleted) {
+          setIsProfileCompleted(true);
           setAlert("Your profile has been updated");
           setButtonMsg("Update Profile");
           setFormName(data.name);
@@ -266,6 +293,7 @@ export const Profilepage = () => {
           setResearchProfileLink(data.researchProfile);
           setGithubLink(data.githubUsername);
         } else {
+          setIsProfileCompleted(false);
           setAlert("Your profile has been completed");
           setButtonMsg("Complete Profile");
           setInfoMessage(
@@ -618,13 +646,53 @@ export const Profilepage = () => {
             </div>
           )}
 
-        <button
-          type="submit"
-          onClick={handleButtonClick}
-          className="btn mt-16 w-44 bg-blue-500 font-Quicksand text-base hover:bg-blue-600"
-        >
-          {buttonMsg}
-        </button>
+        {deleteAlert && (
+          <div
+            role="alert"
+            className="alert alert-error fixed w-80 rounded-lg p-3 shadow-md"
+            style={{
+              top: "10px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 100000, // Ensures it appears on top
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6 shrink-0 stroke-current"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>Your profile has been deleted</span>
+          </div>
+        )}
+
+        <div className="flex flex-row justify-between">
+          <button
+            type="submit"
+            onClick={handleButtonClick}
+            className="btn mt-16 w-44 bg-blue-500 font-Quicksand text-base hover:bg-blue-600"
+          >
+            {buttonMsg}
+          </button>
+
+          {isProfileCompleted && (
+            <button
+              type="button"
+              onClick={handleDeleteClick}
+              className="btn mt-16 w-44 bg-red-600 font-Quicksand text-base text-white hover:bg-black hover:text-white"
+            >
+              Delete Profile
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );
