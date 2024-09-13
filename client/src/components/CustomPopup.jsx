@@ -49,7 +49,7 @@ const CustomPopup = ({
           <img
             src={user.imageUrl}
             alt={`${user.name}'s profile`}
-            className="h-24 w-24 rounded-full border-black border-2"
+            className="h-24 w-24 rounded-full border-2 border-black"
           />
         </div>
       )}
@@ -57,9 +57,7 @@ const CustomPopup = ({
       <div className="mb-2">
         <h3 className="text-lg font-bold 27inches:text-xl">{user.name}</h3>
         <p className="text-sm 27inches:text-xl">- {user.email}</p>
-        <p className="text-sm text-gray-700 27inches:text-xl">
-          - {user.description}
-        </p>
+        <p className="text-sm 27inches:text-xl">- {user.description}</p>
       </div>
       {user.isHacker && (
         <div className="mt-2">
