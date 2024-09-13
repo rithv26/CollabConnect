@@ -50,7 +50,7 @@ export const Ourteam = () => {
                 name: "Arnav Aggarwal",
                 email: "arnav7@umd.edu",
                 description:
-                  "Hi I am Arnav and I am a rising Junior at the University of Maryland, College Park. My key interests include full-stack software development and AI/ML.",
+                  "I am a rising junior at the University of Maryland-College Park, currently majoring in Computer Science with a minor in Mathematics. I'm passionate about full-stack software development and currently exploring cloud computing and LLM applications, with a growing interest in Golang and mobile app development.",
                 isHacker: true,
                 previousHackathons: [
                   "2024 Text AI Jam (Winner)",
