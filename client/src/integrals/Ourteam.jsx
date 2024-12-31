@@ -46,7 +46,7 @@ export const Ourteam = () => {
             <CustomPopup
               className="rounded-xl"
               user={{
-                imageUrl: "https://media.licdn.com/dms/image/v2/D4E03AQH8hu8-YT587Q/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1724617821997?e=1731542400&v=beta&t=b5AAlyD-EIBZ3HdD2ea90ZFVGy5ol2ZnAbpFj1jZ9UA",
+                imageUrl: "https://media.licdn.com/dms/image/v2/D4E03AQH8hu8-YT587Q/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1724617821997?e=1741219200&v=beta&t=6NjGkR3sMWjuP4C8FD_gpxj9oIcXSKFAZzDipEcqt1Q",
                 name: "Arnav Aggarwal",
                 email: "arnav7@umd.edu",
                 description:
@@ -77,7 +77,7 @@ export const Ourteam = () => {
             <CustomPopup
               className="rounded-xl"
               user={{
-                imageUrl: "https://media.licdn.com/dms/image/v2/D4D03AQFfyZJ1FLN_WA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1724037612591?e=1731542400&v=beta&t=dzWDXNpeRDCtl0Jgnb6jOHTzmWDD0s0JD818qVfMpUo",
+                imageUrl: "https://media.licdn.com/dms/image/v2/D4D03AQFfyZJ1FLN_WA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1724037612591?e=1741219200&v=beta&t=nWgFWD7PprMENFqbkb_GrDlaWXQdbTCgcWwAKUm0sGg",
                 name: "Rithvik Singh",
                 email: "singhrithvik.dev@gmail.com",
                 description:
