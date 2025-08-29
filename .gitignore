@@ -26,3 +26,4 @@ dist-ssr
 # Configuration files
 auth_config.json
 .env
+server/env_variables.yaml
