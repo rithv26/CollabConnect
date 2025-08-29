@@ -1,0 +1,8 @@
+# To update backend - make changes and run gcloud app deploy
+
+runtime: nodejs20
+instance_class: F1
+env: standard
+
+includes:
+  - env_variables.yaml
