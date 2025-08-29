@@ -46,6 +46,7 @@ export const Ourteam = () => {
             <CustomPopup
               className="rounded-xl"
               user={{
+                imageUrl: "/arnav.jpeg",
                 name: "Arnav Aggarwal",
                 email: "arnav7@umd.edu",
                 description:
@@ -76,6 +77,7 @@ export const Ourteam = () => {
             <CustomPopup
               className="rounded-xl"
               user={{
+                imageUrl: "/rithvik.jpeg",
                 name: "Rithvik Singh",
                 email: "singhrithvik.dev@gmail.com",
                 description:
