@@ -19,7 +19,19 @@ app.use((req, res, next) => {
     next();
 })
 
-// Routes
+// Root route
+app.get('/', (req, res) => {
+    res.json({
+        message: 'CollabConnect API is running!',
+        status: 'success',
+        endpoints: {
+            users: '/api/users',
+            connect: '/api/connect'
+        }
+    });
+});
+
+// API Routes
 app.use('/api/users', userRouter);
 app.use('/api/connect', mailRouter);
 
